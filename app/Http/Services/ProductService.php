@@ -37,9 +37,8 @@ class ProductService {
             'tipo_producto' => $request->tipo_producto
        ]);
         
-        
         if(!empty($request->variant)){
-            $this->productVariantService->createVariant($product, $request->variant);
+           return $this->productVariantService->createVariant($product, $request->variant);
         }
 
        return $this->get($product->id);
@@ -54,7 +53,7 @@ class ProductService {
         $product->tipo_producto = $request->tipo_producto;
 
         if(!empty($request->variant)){
-            $this->productVariantService->updateVariant($request->variant);
+            $this->productVariantService->updateVariants($request->variant);
         }
 
         if($product->save()){

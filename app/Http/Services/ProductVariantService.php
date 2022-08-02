@@ -26,6 +26,16 @@ class ProductVariantService {
         }
     }
 
+    public function updateVariants($variants)
+    {
+        foreach ($variants as $variant ) {
+            ProductVariant::where('id', $variant['id'])->update([
+                'precio' => $variant['precio'],
+                'descripcion' => $variant['descripcion']
+            ]);
+        }
+    }
+
     public function updateVariant($variants)
     {
         foreach ($variants as $variant ) {
@@ -34,6 +44,14 @@ class ProductVariantService {
                 'descripcion' => $variant['descripcion']
             ]);
         }
+    }
+
+    public function deleteVariant($variant)
+    {
+        if($variant->delete()){
+            return response()->json('Succes',204);
+        }
+        return response()->json(['error' => 'Algo salió mal'], 400);
     }
 
     private function getCounterVariant($product)

@@ -3,10 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductVariant;
+use App\Models\Product;
+use App\Http\Services\ProductVariantService;
+
 use Illuminate\Http\Request;
 
 class ProductVariantController extends Controller
 {
+    
+    protected $productVariantService;
+
+    public function __construct(ProductVariantService $productVariantService)
+    {
+        $this->productVariantService = $productVariantService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,9 +34,10 @@ class ProductVariantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        
+    public function store(Product $product, Request $request)
+    {  
+        $this->productVariantService->createVariant($product, $request->variant);
+        return $this->findProduct($product);
     }
 
     /**
@@ -46,9 +58,9 @@ class ProductVariantController extends Controller
      * @param  \App\Models\ProductVariant  $productVariant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProductVariant $productVariant)
+    public function update(Product $product, ProductVariant $productVariant, Request $request)
     {
-        //
+        return $this->productVariantService->updateVariant($productVariant);
     }
 
     /**
@@ -57,8 +69,13 @@ class ProductVariantController extends Controller
      * @param  \App\Models\ProductVariant  $productVariant
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProductVariant $productVariant)
+    public function destroy(Product $product, ProductVariant $productVariant)
     {
-        //
+        return $this->productVariantService->deleteVariant($productVariant);
+    }
+
+    public function findProduct($product)
+    {
+        return ProductVariant::where('product_id', $product->id)->get();
     }
 }
