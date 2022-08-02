@@ -46,9 +46,9 @@ class ProductVariantController extends Controller
      * @param  \App\Models\ProductVariant  $productVariant
      * @return \Illuminate\Http\Response
      */
-    public function show(ProductVariant $productVariant)
+    public function show(Product $product, ProductVariant $productVariant)
     {
-        //
+        return $this->productVariantService->getVariant($productVariant);
     }
 
     /**
@@ -60,7 +60,7 @@ class ProductVariantController extends Controller
      */
     public function update(Product $product, ProductVariant $productVariant, Request $request)
     {
-        return $this->productVariantService->updateVariant($productVariant);
+        return $this->productVariantService->updateVariant($productVariant, $request);
     }
 
     /**

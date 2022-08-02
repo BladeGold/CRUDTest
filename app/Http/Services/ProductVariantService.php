@@ -2,7 +2,7 @@
 
 namespace App\Http\Services;
 
-
+use App\Http\Resources\ProductVariantResource;
 use App\Models\ProductVariant;
 
 class ProductVariantService {
@@ -26,6 +26,11 @@ class ProductVariantService {
         }
     }
 
+    public function getVariant($variant)
+    {
+        return ProductVariantResource::make($variant);
+    }
+
     public function updateVariants($variants)
     {
         foreach ($variants as $variant ) {
@@ -36,14 +41,16 @@ class ProductVariantService {
         }
     }
 
-    public function updateVariant($variants)
+    public function updateVariant($variant, $request)
     {
-        foreach ($variants as $variant ) {
-            ProductVariant::where('id', $variant['id'])->update([
-                'precio' => $variant['precio'],
-                'descripcion' => $variant['descripcion']
-            ]);
+        $variant->descripcion = $request->descripcion;
+        $variant->precio = $request->precio;
+
+        if($variant->save()){
+            return ProductVariantResource::make($variant);
         }
+
+        return response()->json(['error' => 'Algo salió mal'], 400);
     }
 
     public function deleteVariant($variant)
