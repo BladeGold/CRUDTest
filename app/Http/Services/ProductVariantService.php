@@ -9,7 +9,7 @@ class ProductVariantService {
 
     public function getAllVariant($product)
     {
-        return $product->variant;
+        return ProductVariantResource::collection($product->variant);
     }
 
     public function createVariant($product, $variants)
@@ -36,13 +36,18 @@ class ProductVariantService {
         return ProductVariantResource::make($variant);
     }
 
-    public function updateVariants($variants)
+    public function updateVariants($variants, $product = null)
     {
+        $counter = $this->getCounterVariant($product);
+        $referencia = $this->getReferencia($product);
         foreach ($variants as $variant ) {
+            $number = $referencia['number']+$counter;
             ProductVariant::where('id', $variant['id'])->update([
                 'precio' => $variant['precio'],
-                'descripcion' => $variant['descripcion']
+                'descripcion' => $variant['descripcion'],
+                'referencia' => $referencia['string'].$number,
             ]);
+            $counter++;
         }
     }
 

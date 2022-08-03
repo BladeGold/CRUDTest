@@ -53,7 +53,7 @@ class ProductService {
         $product->tipo_producto = $request->tipo_producto;
 
         if(!empty($request->variant)){
-            $this->productVariantService->updateVariants($request->variant);
+           return $this->productVariantService->updateVariants($request->variant, $product);
         }
 
         if($product->save()){
