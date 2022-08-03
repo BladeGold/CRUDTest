@@ -18,7 +18,7 @@ class ProductService {
 
     public function getAll()
     {
-        return ProductsCollection::collection(Product::paginate(8));
+        return ProductsCollection::make(Product::paginate(8));
     }
     
         public function get($id)

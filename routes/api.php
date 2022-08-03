@@ -24,6 +24,7 @@ Route::group(['prefix' => '/product'], function(){
     Route::put('/{product}/', [ProductController::class, 'update']);
     Route::delete('/{product}/', [ProductController::class, 'destroy']);
 
+    Route::get('/{product}/variant/', [ProductVariantController::class, 'index']);
     Route::get('/{product}/variant/{productVariant}/', [ProductVariantController::class, 'show']);
     Route::post('/{product}/variant/', [ProductVariantController::class, 'store']);
     Route::delete('/{product}/variant/{productVariant}/', [ProductVariantController::class, 'destroy']);

@@ -7,6 +7,11 @@ use App\Models\ProductVariant;
 
 class ProductVariantService {
 
+    public function getAllVariant($product)
+    {
+        return $product->variant;
+    }
+
     public function createVariant($product, $variants)
     {   
         $counter = $this->getCounterVariant($product);
